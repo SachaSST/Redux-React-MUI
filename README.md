@@ -41,6 +41,3 @@ Ce projet est une application de gestion de tâches construite avec React, Redux
 - Cliquez sur le menu (trois barres) en haut à gauche pour ouvrir la liste des tâches archivées.
 - Cliquez sur l'icône de restauration à côté de la tâche que vous souhaitez restaurer.
 
-## Capture d'écran
-
-![Capture d'écran de l'application](path/to/screenshot.png)

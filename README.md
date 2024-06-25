@@ -29,7 +29,7 @@ Ce projet est une application de gestion de tâches construite avec React, Redux
 
 ### Ajouter une tâche
 - Entrez le texte de la tâche dans le champ "New Todo".
-- Cliquez sur le bouton "Add Todo" pour ajouter la tâche à la liste.
+- Cliquez sur le bouton "Add" pour ajouter la tâche à la liste.
 
 ### Marquer comme terminé
 - Cochez la case à côté de la tâche pour la marquer comme terminée.

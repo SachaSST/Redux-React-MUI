@@ -4,7 +4,7 @@ import { List } from '@mui/material';
 import TodoItem from './TodoItem';
 
 const TodoList = () => {
-  const todos = useSelector((state) => state.todos);
+  const todos = useSelector((state) => state.todos.active);
 
   return (
     <List>

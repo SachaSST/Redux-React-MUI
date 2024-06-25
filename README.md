@@ -41,3 +41,19 @@ Ce projet est une application de gestion de tâches construite avec React, Redux
 - Cliquez sur le menu (trois barres) en haut à gauche pour ouvrir la liste des tâches archivées.
 - Cliquez sur l'icône de restauration à côté de la tâche que vous souhaitez restaurer.
 
+## À faire
+
+### Fonctionnalités à implémenter
+
+- [ ] Ajouter la persistance des données (local storage ou backend).
+- [ ] Implémenter le bouton "Login" pour permettre aux utilisateurs de se connecter.
+- [ ] Implémenter le bouton "Register" pour permettre aux nouveaux utilisateurs de créer un compte.
+- [ ] Gérer l'authentification des utilisateurs pour accéder à leurs tâches personnelles.
+- [ ] Optimiser le design.
+
+### Fonctionnalités futures
+
+- Implémenter une vue calendrier pour visualiser les tâches selon leur date d'échéance.
+- Ajouter des notifications pour les tâches à venir ou en retard.
+- Permettre la collaboration en partageant des listes de tâches avec d'autres utilisateurs.
+

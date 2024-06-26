@@ -15,7 +15,9 @@ interface WeatherData {
 
 const useStyles = makeStyles()({
     card: {
-        marginBottom: '20px'
+        marginBottom: '20px',
+        backgroundColor: '#424242', // Assurez-vous que la couleur de fond est compatible avec le thème sombre
+        color: 'white'
     },
     form: {
         display: 'flex',
@@ -23,7 +25,23 @@ const useStyles = makeStyles()({
         marginBottom: '10px'
     },
     textField: {
-        marginRight: '10px'
+        marginRight: '10px',
+        '& .MuiInputBase-root': {
+            color: 'white'
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white'
+        },
+        '& .MuiInputLabel-root': {
+            color: 'white'
+        }
+    },
+    button: {
+        backgroundColor: '#1E88E5',
+        color: 'white',
+        '&:hover': {
+            backgroundColor: '#1565C0'
+        }
     }
 });
 
@@ -76,7 +94,7 @@ const Weather: React.FC = () => {
                         variant="outlined"
                         className={classes.textField}
                     />
-                    <Button variant="contained" color="primary" onClick={handleFetchWeather}>
+                    <Button variant="contained" className={classes.button} onClick={handleFetchWeather}>
                         Get Weather
                     </Button>
                 </Box>

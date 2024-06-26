@@ -3,3 +3,5 @@
 /package-lock.json
 /.DS_Store
 /yarn.lock
+
+*storybook.log

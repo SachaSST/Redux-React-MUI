@@ -15,7 +15,7 @@ const useStyles = makeStyles<{ completed: boolean }>()(
       padding: '10px',
       marginBottom: '10px',
       borderRadius: '5px',
-      backgroundColor: completed ? '#e57373' : '#424242',
+      backgroundColor: completed ? '#407531' : '#424242',
       color: completed ? '#fff' : '#fff',
       textDecoration: completed ? 'line-through' : 'none',
     },

@@ -1,40 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { List, Box } from '@mui/material';
+import { List, Box, Typography } from '@mui/material';
 import TodoItem from './TodoItem';
-import { makeStyles } from '../makeStyles';
+import SearchBar from './SearchBar';
 
-const useStyles = makeStyles()({
-  list: {
-    width: '100%',
-  },
-});
+const TodoList = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const todos = useSelector((state: any) => state.todos.active);
 
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-  icon: string;
-  details: string;
-}
-
-interface RootState {
-  todos: {
-    active: Todo[];
-    archived: Todo[];
-  };
-}
-
-const TodoList: React.FC = () => {
-  const todos = useSelector((state: RootState) => state.todos.active);
-  const { classes } = useStyles();
+  const filteredTodos = todos.filter((todo: any) =>
+    todo.text.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <Box className={classes.list}>
+    <Box width="100%">
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <List>
-        {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
-        ))}
+        {filteredTodos.length > 0 ? (
+          filteredTodos.map((todo: any) => (
+            <TodoItem key={todo.id} todo={todo} />
+          ))
+        ) : (
+          <Typography variant="body1" color="textSecondary" align="center">
+            No tasks found
+          </Typography>
+        )}
       </List>
     </Box>
   );

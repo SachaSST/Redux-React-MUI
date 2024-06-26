@@ -1,43 +1,45 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { toggleTodo, archiveTodo } from '../features/todos/todosSlice';
-import { ListItem, ListItemText, IconButton, Checkbox, Box, Typography, Paper } from '@mui/material';
+import { ListItem, ListItemText, IconButton, Checkbox, Box, Typography, Card, CardContent } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { makeStyles } from '../makeStyles';
 import BedIcon from '@mui/icons-material/Bed';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import OpacityIcon from '@mui/icons-material/Opacity';
 import TimerIcon from '@mui/icons-material/Timer';
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
+import dayjs from 'dayjs';
+import 'dayjs/locale/fr';
+import { makeStyles } from '../makeStyles';
 
-const useStyles = makeStyles<{ completed: boolean }>()(
-  (_theme, { completed }) => ({
+const useStyles = makeStyles<{ completed: boolean; dueDate: string }>()(
+  (_theme, { completed, dueDate }) => ({
     root: {
       textDecoration: completed ? 'line-through' : 'none',
       display: 'flex',
       alignItems: 'center',
-      backgroundColor: '#424242',
-      marginBottom: '10px',
+      justifyContent: 'space-between',
+      backgroundColor: dayjs(dueDate).isBefore(dayjs()) ? '#ffcccb' : '#424242',
       padding: '10px',
       borderRadius: '8px',
       color: '#fff',
-    },
-    icon: {
-      marginRight: '10px',
-    },
-    text: {
-      flexGrow: 1,
+      marginBottom: '10px',
+      transition: 'background-color 0.3s ease',
     },
     details: {
       textAlign: 'right',
       color: '#90caf9',
+      marginLeft: '10px',
+    },
+    icon: {
+      marginRight: '10px',
     },
   })
 );
 
 const TodoItem = ({ todo }: any) => {
   const dispatch = useDispatch();
-  const { classes } = useStyles({ completed: todo.completed });
+  const { classes } = useStyles({ completed: todo.completed, dueDate: todo.dueDate });
 
   const handleToggle = () => {
     dispatch(toggleTodo(todo.id));
@@ -65,26 +67,26 @@ const TodoItem = ({ todo }: any) => {
   };
 
   return (
-    <Paper className={classes.root}>
-      <Checkbox
-        checked={todo.completed}
-        onChange={handleToggle}
-        inputProps={{ 'aria-label': 'controlled' }}
-      />
-      <Box className={classes.icon}>{renderIcon()}</Box>
-      <ListItemText className={classes.text}>
-        <Typography variant="h6">{todo.text}</Typography>
-        <Typography variant="body2" color="textSecondary">Fonce !</Typography>
-      </ListItemText>
-      <Box className={classes.details}>
-        <Typography variant="body2">
-          {todo.details}
-        </Typography>
-      </Box>
-      <IconButton edge="end" onClick={handleArchive} aria-label="delete">
-        <DeleteIcon />
-      </IconButton>
-    </Paper>
+    <Card className={classes.root}>
+      <CardContent>
+        <Box display="flex" alignItems="center">
+          <Checkbox
+            checked={todo.completed}
+            onChange={handleToggle}
+            inputProps={{ 'aria-label': 'controlled' }}
+            className={classes.icon}
+          />
+          {renderIcon()}
+          <ListItemText primary={todo.text} />
+          <Typography variant="body2" className={classes.details}>
+            {dayjs(todo.dueDate).locale('fr').format('DD/MM/YYYY HH:mm')}
+          </Typography>
+          <IconButton edge="end" onClick={handleArchive} aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 

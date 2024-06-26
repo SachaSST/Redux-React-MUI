@@ -41,6 +41,10 @@ const Weather: React.FC = () => {
     fetchWeatherData(city);
   };
 
+  const resetWeatherData = () => {
+    setWeatherData(null);
+  }
+
   return (
     <Card>
       <CardContent>
@@ -56,6 +60,9 @@ const Weather: React.FC = () => {
           <Button variant="contained" color="primary" onClick={handleFetchWeather}>
             Get Weather
           </Button>
+            <Button variant="contained" color="secondary" onClick={resetWeatherData} style={{ marginLeft: '10px' }}>
+                Reset
+            </Button>
         </Box>
         {loading ? (
           <Typography variant="body1" mt={2}>Loading...</Typography>

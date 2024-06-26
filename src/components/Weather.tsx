@@ -19,6 +19,7 @@ const Weather: React.FC = () => {
 
   const apiKey = '674b2b4b5bdae5978d231f22685c8338'; 
 
+  
   const fetchWeatherData = async (city: string) => {
     setLoading(true);
     try {

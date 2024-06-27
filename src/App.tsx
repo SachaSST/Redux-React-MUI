@@ -1,15 +1,19 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AddTodo from './components/AddTodo';
-import TodoList from './components/TodoList';
-import ArchivedMenuBar from './components/ArchivedMenuBar';
-import Weather from './components/Weather';
+import AddTodo from '../src/components/AddTodo';
+import TodoList from '../src/components/TodoList';
+import ArchivedMenuBar from '../src/components/ArchivedMenuBar';
+import Weather from '../src/components/Weather';
 import { Container, Typography, Box } from '@mui/material';
 
-const App: React.FC = () => {
+interface AppProps {
+  onLogout: () => void;
+}
+
+const App: React.FC<AppProps> = ({ onLogout }) => {
   return (
     <div>
-      <ArchivedMenuBar />
+      <ArchivedMenuBar onLogout={onLogout} />
       <Container maxWidth="md" style={{ marginTop: '80px' }}>
         <Box
           display="flex"

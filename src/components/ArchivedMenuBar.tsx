@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { AppBar, Box, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, ListItemSecondaryAction, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import RestoreIcon from '@mui/icons-material/Restore';
 import { useDispatch, useSelector } from 'react-redux';
 import { restoreTodo } from '../features/todos/todosSlice';
 
-export default function ArchivedMenuBar() {
+interface ArchivedMenuBarProps {
+  onLogout: () => void;
+}
+
+const ArchivedMenuBar: React.FC<ArchivedMenuBarProps> = ({ onLogout }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const archivedTodos = useSelector((state: any) => state.todos.archived);
@@ -37,16 +41,20 @@ export default function ArchivedMenuBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              Archived Tasks
+            <Link href="/" passHref>
+              <Typography style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>
+                Archived Tasks
+              </Typography>
             </Link>
           </Typography>
           <Button color="inherit">
-            <Link to="/weather" style={{ textDecoration: 'none', color: 'inherit' }}>
-              Weather
+            <Link href="/weather" passHref>
+              <Typography style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>
+                Weather
+              </Typography>
             </Link>
           </Button>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={onLogout}>Logout</Button>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
@@ -65,4 +73,6 @@ export default function ArchivedMenuBar() {
       </Drawer>
     </Box>
   );
-}
+};
+
+export default ArchivedMenuBar;

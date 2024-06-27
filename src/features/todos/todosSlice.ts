@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface Todo {
   id: number;
   text: string;
-  completed: boolean;
   dueDate: string;
+  completed: boolean;
 }
 
 interface TodosState {
@@ -14,7 +14,7 @@ interface TodosState {
 
 const initialState: TodosState = {
   active: [],
-  archived: []
+  archived: [],
 };
 
 const todosSlice = createSlice({
@@ -25,8 +25,8 @@ const todosSlice = createSlice({
       state.active.push({
         id: Date.now(),
         text: action.payload.text,
+        dueDate: action.payload.dueDate,
         completed: false,
-        dueDate: action.payload.dueDate
       });
     },
     toggleTodo: (state, action: PayloadAction<number>) => {
@@ -36,29 +36,25 @@ const todosSlice = createSlice({
       }
     },
     archiveTodo: (state, action: PayloadAction<number>) => {
-      const todoIndex = state.active.findIndex(todo => todo.id === action.payload);
-      if (todoIndex >= 0) {
-        const [todo] = state.active.splice(todoIndex, 1);
+      const index = state.active.findIndex(todo => todo.id === action.payload);
+      if (index !== -1) {
+        const [todo] = state.active.splice(index, 1);
         state.archived.push(todo);
       }
     },
     restoreTodo: (state, action: PayloadAction<number>) => {
-      const todoIndex = state.archived.findIndex(todo => todo.id === action.payload);
-      if (todoIndex >= 0) {
-        const [todo] = state.archived.splice(todoIndex, 1);
+      const index = state.archived.findIndex(todo => todo.id === action.payload);
+      if (index !== -1) {
+        const [todo] = state.archived.splice(index, 1);
         state.active.push(todo);
       }
     },
-    checkDueTodos: (state) => {
-      const now = new Date().toISOString();
-      state.active.forEach(todo => {
-        if (new Date(todo.dueDate) <= new Date(now)) {
-          todo.completed = true;
-        }
-      });
-    }
-  }
+    clearUser: (state) => {
+      state.active = [];
+      state.archived = [];
+    },
+  },
 });
 
-export const { addTodo, toggleTodo, archiveTodo, restoreTodo, checkDueTodos } = todosSlice.actions;
+export const { addTodo, toggleTodo, archiveTodo, restoreTodo, clearUser } = todosSlice.actions;
 export default todosSlice.reducer;

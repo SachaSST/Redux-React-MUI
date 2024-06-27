@@ -1,14 +1,13 @@
 import React from 'react';
-import type { AppProps } from 'next/app';
-import { Provider } from 'react-redux';
+import type { AppProps, AppContext } from 'next/app';
+import { Provider, useDispatch } from 'react-redux';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import store from '../src/store';
 import ArchivedMenuBar from '../src/components/ArchivedMenuBar';
-import { useDispatch } from 'react-redux';
-import { useRouter, withRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { clearUser } from '../src/features/todos/todosSlice';
 
 const darkTheme = createTheme({
@@ -17,12 +16,9 @@ const darkTheme = createTheme({
   },
 });
 
-interface ComponentWrapperProps extends AppProps {
-  router: any;
-}
-
-const ComponentWrapper: React.FC<ComponentWrapperProps> = ({ Component, pageProps, router }) => {
+const ComponentWrapper: React.FC<AppProps> = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -33,20 +29,18 @@ const ComponentWrapper: React.FC<ComponentWrapperProps> = ({ Component, pageProp
   return (
     <>
       <ArchivedMenuBar onLogout={handleLogout} />
-      <Component {...pageProps} />
+      <Component {...pageProps} router={router} />
     </>
   );
 };
 
-const WrappedComponentWrapper = withRouter(ComponentWrapper);
-
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
   return (
     <Provider store={store}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <WrappedComponentWrapper Component={Component} pageProps={pageProps} />
+          <ComponentWrapper Component={Component} pageProps={pageProps} router={router} />
         </LocalizationProvider>
       </ThemeProvider>
     </Provider>

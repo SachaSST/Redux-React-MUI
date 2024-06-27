@@ -4,7 +4,7 @@ interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  profilePicture?: string;
+  profilePicture?: string; 
 }
 
 const userSchema = new Schema<IUser>({
@@ -15,4 +15,5 @@ const userSchema = new Schema<IUser>({
 });
 
 const User = model<IUser>('User', userSchema);
+
 export default User;

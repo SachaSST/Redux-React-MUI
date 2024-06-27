@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
@@ -15,16 +15,18 @@ const darkTheme = createTheme({
   },
 });
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
   <Provider store={store}>
     <Router>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <App />
-        </ThemeProvider>
-      </LocalizationProvider>
+        </LocalizationProvider>
+      </ThemeProvider>
     </Router>
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );

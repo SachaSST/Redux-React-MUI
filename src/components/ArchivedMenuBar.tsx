@@ -46,7 +46,6 @@ export default function ArchivedMenuBar() {
               Weather
             </Link>
           </Button>
-          <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>

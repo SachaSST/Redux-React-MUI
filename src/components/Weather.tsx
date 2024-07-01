@@ -16,7 +16,7 @@ interface WeatherData {
 const useStyles = makeStyles()({
     card: {
         marginBottom: '20px',
-        backgroundColor: '#424242', // Assurez-vous que la couleur de fond est compatible avec le thème sombre
+        backgroundColor: '#424242', 
         color: 'white'
     },
     form: {

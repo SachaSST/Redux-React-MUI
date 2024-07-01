@@ -1,10 +1,11 @@
+// TodoList.tsx
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { List, Box, Typography } from '@mui/material';
 import TodoItem from './TodoItem';
 import SearchBar from './SearchBar';
 
-const TodoList = () => {
+const TodoList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const todos = useSelector((state: any) => state.todos.active);
 

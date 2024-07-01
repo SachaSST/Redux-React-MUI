@@ -1,10 +1,12 @@
+// AddTodo.tsx
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TextField, Button, Box, Grid } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Dayjs } from 'dayjs';
 import { styled } from '@mui/material/styles';
-import { addTodo } from '../services/api'; // Importez la méthode addTodo
+import { addTodo } from '../features/todos/todosSlice';
 
 const AddButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -27,23 +29,22 @@ const AddButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const AddTodo = () => {
+const AddTodo: React.FC = () => {
   const [text, setText] = useState('');
   const [dueDate, setDueDate] = useState<Dayjs | null>(null);
+  const dispatch = useDispatch();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim()) {
-      try {
-        await addTodo({
-          todo: text,
-          date: dueDate ? dueDate.toISOString() : '',
-        });
-        setText('');
-        setDueDate(null);
-      } catch (error) {
-        console.error('Failed to add todo:', error);
-      }
+      dispatch(addTodo({
+        id: Date.now(),
+        text,
+        dueDate: dueDate ? dueDate.toISOString() : '',
+        completed: false,
+      }));
+      setText('');
+      setDueDate(null);
     }
   };
 

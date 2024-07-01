@@ -21,13 +21,8 @@ const todosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<{ text: string; dueDate: string }>) => {
-      state.active.push({
-        id: Date.now(),
-        text: action.payload.text,
-        dueDate: action.payload.dueDate,
-        completed: false,
-      });
+    addTodo: (state, action: PayloadAction<Todo>) => {
+      state.active.push(action.payload);
     },
     toggleTodo: (state, action: PayloadAction<number>) => {
       const todo = state.active.find(todo => todo.id === action.payload);
@@ -52,9 +47,10 @@ const todosSlice = createSlice({
     clearUser: (state) => {
       state.active = [];
       state.archived = [];
-    },
+    }
   },
 });
 
 export const { addTodo, toggleTodo, archiveTodo, restoreTodo, clearUser } = todosSlice.actions;
+
 export default todosSlice.reducer;

@@ -1,5 +1,5 @@
 import connectMongoDB from '../../../libs/mongodb';
-import Topic from '../../../models/topics';
+import Topic from '../../../backend/models/Topic';
 import { NextResponse } from 'next/server';
 
 // Middleware to parse the JSON body

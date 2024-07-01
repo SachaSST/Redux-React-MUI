@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addTodo } from '../features/todos/todosSlice';
 import { TextField, Button, Box, Grid } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Dayjs } from 'dayjs';
 import { styled } from '@mui/material/styles';
+import { addTodo } from '../services/api'; // Importez la méthode addTodo
 
 const AddButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -28,20 +27,23 @@ const AddButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const AddTodo: React.FC = () => {
+const AddTodo = () => {
   const [text, setText] = useState('');
   const [dueDate, setDueDate] = useState<Dayjs | null>(null);
-  const dispatch = useDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim()) {
-      dispatch(addTodo({
-        text,
-        dueDate: dueDate ? dueDate.toISOString() : '',
-      }));
-      setText('');
-      setDueDate(null);
+      try {
+        await addTodo({
+          todo: text,
+          date: dueDate ? dueDate.toISOString() : '',
+        });
+        setText('');
+        setDueDate(null);
+      } catch (error) {
+        console.error('Failed to add todo:', error);
+      }
     }
   };
 
@@ -70,6 +72,7 @@ const AddTodo: React.FC = () => {
             label="Due Date"
             value={dueDate}
             onChange={(newValue) => setDueDate(newValue)}
+            // renderInput={(params) => <TextField {...params} fullWidth variant="outlined" />}
           />
         </Grid>
         <Grid item xs={12} md={2} display="flex" justifyContent="center">

@@ -4,6 +4,7 @@ import AddTodo from '../src/components/AddTodo';
 import TodoList from '../src/components/TodoList';
 import ArchivedMenuBar from '../src/components/ArchivedMenuBar';
 import Weather from '../src/components/Weather';
+import CalendarView from '../src/components/CalendarView';
 import { Container, Typography, Box } from '@mui/material';
 
 interface AppProps {
@@ -47,6 +48,7 @@ const App: React.FC<AppProps> = ({ onLogout }) => {
               }
             />
             <Route path="/weather" element={<Weather />} />
+            <Route path="/calendar" element={<CalendarView />} />
           </Routes>
         </Box>
       </Container>

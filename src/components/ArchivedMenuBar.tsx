@@ -41,13 +41,22 @@ const ArchivedMenuBar: React.FC<ArchivedMenuBarProps> = ({ onLogout }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Button color="inherit" component={Link} href="/">
-              Archived Tasks
-            </Button>
+            <Link href="/" passHref legacyBehavior>
+              <a style={{ textDecoration: 'none', color: 'inherit' }}>
+                Archived Tasks
+              </a>
+            </Link>
           </Typography>
-          <Button color="inherit" component={Link} href="/weather">
-            Weather
-          </Button>
+          <Link href="/weather" passHref legacyBehavior>
+            <Button color="inherit" component="a">
+              Weather
+            </Button>
+          </Link>
+          <Link href="/calendar" passHref legacyBehavior>
+            <Button color="inherit" component="a">
+              Calendar
+            </Button>
+          </Link>
           <Button color="inherit" onClick={onLogout}>
             Logout
           </Button>

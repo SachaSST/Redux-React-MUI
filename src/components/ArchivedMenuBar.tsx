@@ -1,58 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { AppBar, Box, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, ListItemSecondaryAction, Button } from '@mui/material';
+import { AppBar, Box, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Popover } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import RestoreIcon from '@mui/icons-material/Restore';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import { restoreTodo } from '../features/todos/todosSlice';
+import { clearNotifications } from '../features/notifications/notificationsSlice';
+import { Exposure } from '@mui/icons-material';
 
 interface ArchivedMenuBarProps {
   onLogout: () => void;
 }
 
 const ArchivedMenuBar: React.FC<ArchivedMenuBarProps> = ({ onLogout }) => {
-  const [open, setOpen] = useState(false);
-  const [notifications, setNotifications] = useState<string[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [notificationsAnchorEl, setNotificationsAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch = useDispatch();
   const archivedTodos = useSelector((state: any) => state.todos.archived);
-  const todos = useSelector((state: any) => state.todos.active);
-
-  useEffect(() => {
-    const interval = setInterval(checkNotifications, 60000); 
-    return () => clearInterval(interval); 
-  }, [todos]);
+  const notifications = useSelector((state: any) => state.notifications.notifications);
 
   const toggleDrawer = (open: boolean) => (event: any) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-    setOpen(open);
+    setDrawerOpen(open);
   };
 
   const handleRestore = (id: number) => {
     dispatch(restoreTodo(id));
   };
 
-  const checkNotifications = () => {
-    const now = new Date();
-    const newNotifications: string[] = [];
-
-    todos.forEach((todo: any) => {
-      const dueDate = new Date(todo.dueDate);
-      if (todo.completed) {
-        newNotifications.push(`Task "${todo.text}" has been completed.`);
-      } else if (dueDate < now) {
-        newNotifications.push(`Task "${todo.text}" is overdue.`);
-      } else if (dueDate.getTime() - now.getTime() < 24 * 60 * 60 * 1000) {
-        newNotifications.push(`Task "${todo.text}" is due soon.`);
-      }
-    });
-
-  
-
-    setNotifications(newNotifications);
+  const handleNotificationsClick = (event: React.MouseEvent<HTMLElement>) => {
+    setNotificationsAnchorEl(event.currentTarget);
   };
+
+  const handleNotificationsClose = () => {
+    setNotificationsAnchorEl(null);
+  };
+
+  const open = Boolean(notificationsAnchorEl);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -75,9 +62,6 @@ const ArchivedMenuBar: React.FC<ArchivedMenuBarProps> = ({ onLogout }) => {
               </a>
             </Link>
           </Typography>
-          <IconButton color="inherit" onClick={() => alert(notifications.join('\n'))}>
-            <NotificationsIcon />
-          </IconButton>
           <Button color="inherit">
             <Link href="/weather" passHref legacyBehavior>
               <a style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -85,12 +69,15 @@ const ArchivedMenuBar: React.FC<ArchivedMenuBarProps> = ({ onLogout }) => {
               </a>
             </Link>
           </Button>
+          <IconButton color="inherit" onClick={handleNotificationsClick}>
+            <NotificationsIcon />
+          </IconButton>
           <Button color="inherit" onClick={onLogout}>
             Logout
           </Button>
         </Toolbar>
       </AppBar>
-      <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>
+      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         <List>
           {archivedTodos.map((todo: any) => (
             <ListItem button key={todo.id}>
@@ -104,6 +91,29 @@ const ArchivedMenuBar: React.FC<ArchivedMenuBarProps> = ({ onLogout }) => {
           ))}
         </List>
       </Drawer>
+      <Popover
+        open={open}
+        anchorEl={notificationsAnchorEl}
+        onClose={handleNotificationsClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <List>
+          {notifications.length > 0 ? (
+            notifications.map((notification: any, index: number) => (
+              <ListItem key={index}>
+                <ListItemText primary={notification.message} />
+              </ListItem>
+            ))
+          ) : (
+            <ListItem>
+              <ListItemText primary="No notifications" />
+            </ListItem>
+          )}
+        </List>
+      </Popover>
     </Box>
   );
 };

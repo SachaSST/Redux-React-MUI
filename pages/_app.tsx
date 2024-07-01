@@ -7,6 +7,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import store from '../src/store';
 import ArchivedMenuBar from '../src/components/ArchivedMenuBar';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const darkTheme = createTheme({
   palette: {
@@ -22,6 +24,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <ArchivedMenuBar onLogout={() => { /* Logic to clear user and redirect */ }} />
           <Component {...pageProps} />
+          <ToastContainer />
         </LocalizationProvider>
       </ThemeProvider>
     </Provider>

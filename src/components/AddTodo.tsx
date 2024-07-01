@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { TextField, Button, Box, Grid } from '@mui/material';
+import { TextField, Button, Box, Grid, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Dayjs } from 'dayjs';
 import { styled } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
 import { addTodo } from '../features/todos/todosSlice';
 
 const AddButton = styled(Button)(({ theme }) => ({
@@ -28,22 +28,23 @@ const AddButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const AddTodo: React.FC = () => {
+const AddTodo = () => {
   const [text, setText] = useState('');
   const [dueDate, setDueDate] = useState<Dayjs | null>(null);
+  const [recurrence, setRecurrence] = useState('none');
   const dispatch = useDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim()) {
       dispatch(addTodo({
-        id: Date.now(),
         text,
         dueDate: dueDate ? dueDate.toISOString() : '',
-        completed: false,
+        recurrence,
       }));
       setText('');
       setDueDate(null);
+      setRecurrence('none');
     }
   };
 
@@ -58,7 +59,7 @@ const AddTodo: React.FC = () => {
       mt={4}
     >
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={3}>
           <TextField
             fullWidth
             value={text}
@@ -67,15 +68,30 @@ const AddTodo: React.FC = () => {
             variant="outlined"
           />
         </Grid>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={3}>
           <DateTimePicker
             label="Due Date"
             value={dueDate}
             onChange={(newValue) => setDueDate(newValue)}
-            // renderInput={(params) => <TextField {...params} fullWidth variant="outlined" />}
+            //renderInput={(params) => <TextField {...params} fullWidth variant="outlined" />}
           />
         </Grid>
-        <Grid item xs={12} md={2} display="flex" justifyContent="center">
+        <Grid item xs={12} md={3}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>Recurrence</InputLabel>
+            <Select
+              value={recurrence}
+              onChange={(e) => setRecurrence(e.target.value)}
+              label="Recurrence"
+            >
+              <MenuItem value="none">None</MenuItem>
+              <MenuItem value="daily">Daily</MenuItem>
+              <MenuItem value="weekly">Weekly</MenuItem>
+              <MenuItem value="monthly">Monthly</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} md={3} display="flex" justifyContent="center">
           <AddButton type="submit" variant="contained">
             <SendIcon style={{ marginRight: '5px' }} />
             Add

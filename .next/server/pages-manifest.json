@@ -3,6 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/calendar": "pages/calendar.js",
-  "/weather": "pages/weather.js"
+  "/weather": "pages/weather.js",
+  "/calendar": "pages/calendar.js"
 }

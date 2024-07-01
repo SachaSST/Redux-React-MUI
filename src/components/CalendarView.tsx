@@ -1,96 +1,95 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useSelector } from 'react-redux';
-import styled from '@emotion/styled';
+import { Box, Typography, Card, CardContent, useTheme } from '@mui/material';
 
 const localizer = momentLocalizer(moment);
 
-const CalendarContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #121212;
-  color: #fff;
-`;
+const generateRecurringEvents = (todo: any) => {
+  const events = [];
+  const startDate = new Date(todo.dueDate);
 
-const StyledCalendar = styled(Calendar)`
-  width: 80%;
-  max-width: 1200px;
-  height: 80vh;
-  background-color: #1e1e1e;
-  color: #fff;
-
-  .rbc-toolbar {
-    background-color: #2e2e2e;
-    border-bottom: 1px solid #444;
-    margin-bottom: 20px;
+  if (todo.recurrence === 'daily') {
+    for (let i = 0; i < 30; i++) {
+      const newDate = new Date(startDate);
+      newDate.setDate(newDate.getDate() + i);
+      events.push({
+        title: todo.text,
+        start: newDate,
+        end: newDate,
+        allDay: true,
+      });
+    }
+  } else if (todo.recurrence === 'weekly') {
+    for (let i = 0; i < 12; i++) {
+      const newDate = new Date(startDate);
+      newDate.setDate(newDate.getDate() + i * 7);
+      events.push({
+        title: todo.text,
+        start: newDate,
+        end: newDate,
+        allDay: true,
+      });
+    }
+  } else if (todo.recurrence === 'monthly') {
+    for (let i = 0; i < 12; i++) {
+      const newDate = new Date(startDate);
+      newDate.setMonth(newDate.getMonth() + i);
+      events.push({
+        title: todo.text,
+        start: newDate,
+        end: newDate,
+        allDay: true,
+      });
+    }
+  } else {
+    events.push({
+      title: todo.text,
+      start: startDate,
+      end: startDate,
+      allDay: true,
+    });
   }
 
-  .rbc-toolbar button {
-    background-color: #444;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    margin: 0 5px;
-    cursor: pointer;
-  }
-
-  .rbc-toolbar button:hover {
-    background-color: #555;
-  }
-
-  .rbc-month-view, .rbc-time-view {
-    background-color: #2e2e2e;
-  }
-
-  .rbc-event {
-    background-color: #4caf50;
-    border-radius: 4px;
-    padding: 5px;
-    color: #fff;
-  }
-
-  .rbc-selected {
-    background-color: #388e3c !important;
-  }
-
-  .rbc-today {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .rbc-off-range-bg {
-    background-color: #333;
-  }
-`;
+  return events;
+};
 
 const CalendarView = () => {
   const todos = useSelector((state: any) => state.todos.active);
-  const [events, setEvents] = useState<any[]>([]);
+  const theme = useTheme();
 
-  useEffect(() => {
-    const formattedEvents = todos.map((todo: any) => ({
-      title: todo.text,
-      start: new Date(todo.dueDate),
-      end: new Date(todo.dueDate),
-      allDay: true,
-    }));
-    setEvents(formattedEvents);
-  }, [todos]);
+  const events = todos.flatMap((todo: any) => generateRecurringEvents(todo));
 
   return (
-    <CalendarContainer>
-      <StyledCalendar
-        localizer={localizer}
-        events={events}
-        startAccessor={(event: any) => new Date(event.start)}
-        endAccessor={(event: any) => new Date(event.end)}
-        style={{ height: 500 }}
-      />
-    </CalendarContainer>
+    <Box p={2}>
+      <Card sx={{ bgcolor: theme.palette.background.paper, color: theme.palette.text.primary, boxShadow: 3 }}>
+        <CardContent>
+          <Typography variant="h5" component="div" gutterBottom>
+            Calendar View
+          </Typography>
+          <Box p={2} style={{ height: '500px' }}>
+            <Calendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: '100%' }}
+              eventPropGetter={(event) => ({
+                style: {
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.common.white,
+                  borderRadius: '8px',
+                  padding: '5px',
+                  border: 'none',
+                },
+              })}
+            />
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 

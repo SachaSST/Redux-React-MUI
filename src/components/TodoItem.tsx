@@ -3,20 +3,35 @@ import { useDispatch } from 'react-redux';
 import { toggleTodo, archiveTodo } from '../features/todos/todosSlice';
 import { ListItem, ListItemText, IconButton, Checkbox, Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { styled } from '@mui/material/styles';
+import { makeStyles } from '../makeStyles';
 import dayjs from 'dayjs';
 
-interface TodoItemProps {
-  todo: {
-    id: number;
-    text: string;
-    dueDate: string;
-    completed: boolean;
-  };
-}
+const useStyles = makeStyles<{ completed: boolean }>()(
+  (_theme, { completed }) => ({
+    root: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '10px',
+      marginBottom: '10px',
+      borderRadius: '5px',
+      backgroundColor: completed ? '#407531' : '#424242',
+      color: completed ? '#fff' : '#fff',
+      textDecoration: completed ? 'line-through' : 'none',
+    },
+    text: {
+      flex: 1,
+      marginLeft: '10px',
+    },
+    dueDate: {
+      marginLeft: '10px',
+    },
+  })
+);
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
+const TodoItem = ({ todo }: any) => {
   const dispatch = useDispatch();
+  const { classes } = useStyles({ completed: todo.completed });
 
   const handleToggle = () => {
     dispatch(toggleTodo(todo.id));
@@ -26,44 +41,23 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
     dispatch(archiveTodo(todo.id));
   };
 
-  const Root = styled(ListItem)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '10px',
-    marginBottom: '10px',
-    borderRadius: '5px',
-    backgroundColor: todo.completed ? '#407531' : '#424242',
-    color: '#fff',
-    textDecoration: todo.completed ? 'line-through' : 'none',
-  }));
-
-  const Text = styled(ListItemText)({
-    flex: 1,
-    marginLeft: '10px',
-  });
-
-  const DueDate = styled(Typography)({
-    marginLeft: '10px',
-  });
-
   return (
-    <Root>
+    <ListItem className={classes.root}>
       <Checkbox
         checked={todo.completed}
         onChange={handleToggle}
         inputProps={{ 'aria-label': 'controlled' }}
       />
-      <Text primary={todo.text} />
-      <DueDate variant="body2">
+      <ListItemText primary={todo.text} className={classes.text} />
+      <Typography variant="body2" className={classes.dueDate}>
         {dayjs(todo.dueDate).format('DD/MM/YYYY HH:mm')}
-      </DueDate>
+      </Typography>
       <Box>
         <IconButton edge="end" onClick={handleArchive} aria-label="delete">
           <DeleteIcon />
         </IconButton>
       </Box>
-    </Root>
+    </ListItem>
   );
 };
 

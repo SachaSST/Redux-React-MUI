@@ -1,16 +1,24 @@
-import mongoose from 'mongoose';
+import { MongoClient } from 'mongodb';
 
-const connectMongoDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
-    throw new Error("Failed to connect to MongoDB");
+const uri = process.env.MONGODB_URI;
+const options = {};
+
+let client;
+let clientPromise;
+
+if (!process.env.MONGODB_URI) {
+  throw new Error('Please add your Mongo URI to .env.local');
+}
+
+if (process.env.NODE_ENV === 'development') {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect();
   }
-};
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
 
-export default connectMongoDB;
+export default clientPromise;

@@ -27,20 +27,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/add-template": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/add-template.js"
-    ],
     "/apply-template": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/apply-template.js"
     ],
-    "/calendar": [
+    "/auth/signin": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/calendar.js"
+      "static/chunks/pages/auth/signin.js"
+    ],
+    "/auth/signup": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/auth/signup.js"
     ],
     "/weather": [
       "static/chunks/webpack.js",

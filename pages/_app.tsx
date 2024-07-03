@@ -5,7 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { store } from '../src/store'; // Correction de l'importation ici
+import { store, AppDispatch } from '../src/store';
 import ArchivedMenuBar from '../src/components/ArchivedMenuBar';
 import { useRouter } from 'next/router';
 import { ToastContainer } from 'react-toastify';
@@ -25,11 +25,11 @@ interface ComponentWrapperProps {
 
 const ComponentWrapper: React.FC<ComponentWrapperProps> = ({ Component, pageProps }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(checkNotifications() as any); // Correction ici pour gérer l'erreur de type
+      dispatch(checkNotifications());
     }, 30000); // 30 seconds interval
 
     return () => clearInterval(interval); // Cleanup on unmount

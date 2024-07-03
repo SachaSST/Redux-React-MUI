@@ -120,13 +120,11 @@ const ArchivedMenuBar: React.FC<ArchivedMenuBarProps> = ({ onLogout }) => {
           <Button color="inherit">
             <Link href="/auth/signup" passHref legacyBehavior>
               <a style={{ textDecoration: 'none', color: 'inherit' }}>
-                Sign Up
-              </a>
+              Sign Up
+                   </a>
             </Link>
           </Button>
-          <Button color="inherit" onClick={onLogout}>
-            Logout
-          </Button>
+
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={open} onClose={toggleDrawer(false)}>

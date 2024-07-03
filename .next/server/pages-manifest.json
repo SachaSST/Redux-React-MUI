@@ -3,10 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/auth/signup": "pages/auth/signup.js",
-  "/weather": "pages/weather.js",
-  "/api/auth/signup": "pages/api/auth/signup.js",
-  "/auth/signin": "pages/auth/signin.js",
-  "/apply-template": "pages/apply-template.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js"
+  "/calendar": "pages/calendar.js",
+  "/weather": "pages/weather.js"
 }

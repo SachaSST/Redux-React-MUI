@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AddTodo from '../src/components/AddTodo';
-import TodoList from '../src/components/TodoList';
-import ArchivedMenuBar from '../src/components/ArchivedMenuBar';
-import Weather from '../src/components/Weather';
-import AddTemplate from '../src/components/AddTemplate';
-import ApplyTemplate from '../src/components/ApplyTemplate';
+import AddTodo from './components/AddTodo';
+import TodoList from './components/TodoList';
+import ArchivedMenuBar from './components/ArchivedMenuBar';
+import Weather from './components/Weather';
+import AddTemplate from './components/AddTemplate';
+import ApplyTemplate from './components/ApplyTemplate';
 import { Container, Typography, Box } from '@mui/material';
 
 const App: React.FC = () => {

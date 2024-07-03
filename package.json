@@ -39,7 +39,7 @@
     "react-toastify": "^10.0.5",
     "redux": "^5.0.1",
     "tss-react": "^4.9.10",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
@@ -84,6 +84,7 @@
     "@storybook/test": "^8.1.10",
     "@types/axios": "^0.14.0",
     "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mongoose": "^5.11.97",
     "@types/react-big-calendar": "^1.8.9",
@@ -91,6 +92,7 @@
     "eslint-plugin-storybook": "^0.8.0",
     "prop-types": "^15.8.1",
     "storybook": "^8.1.10",
+    "ts-node": "^10.9.2",
     "webpack": "^5.92.1"
   }
 }

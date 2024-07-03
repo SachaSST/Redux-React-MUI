@@ -118,12 +118,12 @@ const ArchivedMenuBar: React.FC<ArchivedMenuBarProps> = ({ onLogout }) => {
             </Link>
           </Button>
           <Button color="inherit">
-            <Link href="/auth/signup" passHref legacyBehavior>
-              <a style={{ textDecoration: 'none', color: 'inherit' }}>
-              Sign Up
-                   </a>
-            </Link>
-          </Button>
+  <Link href="/auth/signup" passHref legacyBehavior>
+    <a style={{ textDecoration: 'none', color: 'inherit' }}>
+      Sign Up
+    </a>
+  </Link>
+</Button>
 
         </Toolbar>
       </AppBar>

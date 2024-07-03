@@ -9,9 +9,14 @@ import ApplyTemplate from './components/ApplyTemplate';
 import { Container, Typography, Box } from '@mui/material';
 
 const App: React.FC = () => {
+  const handleLogout = () => {
+    // Logique de déconnexion, par exemple redirection ou nettoyage de l'état utilisateur
+    console.log('User logged out');
+  };
+
   return (
     <div>
-      <ArchivedMenuBar />
+      <ArchivedMenuBar onLogout={handleLogout} />
       <Container maxWidth="md" style={{ marginTop: '80px' }}>
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" minHeight="100vh">
           <Routes>

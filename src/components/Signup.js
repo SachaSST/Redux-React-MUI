@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
+// components/Signup.js
+import { useState } from 'react';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignUp = async (email, password) => {
+  const handleSignUp = async () => {
     try {
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,36 +24,22 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleSignUp(email, password);
-  };
-
   return (
-    <Box>
-      <Typography variant="h6">Sign Up</Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          label="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          fullWidth
-          required
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-          required
-        />
-        <Button type="submit" variant="contained" color="primary">
-          Sign Up
-        </Button>
-      </form>
-    </Box>
+    <div>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleSignUp}>Sign Up</button>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface TemplateTask {
+interface Task {
   day: string;
   time: string;
   text: string;
@@ -9,7 +9,7 @@ interface TemplateTask {
 interface Template {
   id: number;
   name: string;
-  tasks: TemplateTask[];
+  tasks: Task[];
 }
 
 interface TemplatesState {
@@ -31,12 +31,9 @@ const templatesSlice = createSlice({
       };
       state.templates.push(newTemplate);
     },
-    removeTemplate: (state, action: PayloadAction<number>) => {
-      state.templates = state.templates.filter(template => template.id !== action.payload);
-    },
   },
 });
 
-export const { addTemplate, removeTemplate } = templatesSlice.actions;
+export const { addTemplate } = templatesSlice.actions;
 
 export default templatesSlice.reducer;

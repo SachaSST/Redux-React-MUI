@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTemplate } from '../features/templates/templatesSlice';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, Grid, Paper } from '@mui/material';
 
 const AddTemplate: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,40 +26,53 @@ const AddTemplate: React.FC = () => {
   };
 
   return (
-    <Box>
-      <Typography variant="h6">Add New Template</Typography>
-      <TextField
-        label="Template Name"
-        value={templateName}
-        onChange={(e) => setTemplateName(e.target.value)}
-        fullWidth
-      />
-      {tasks.map((task, index) => (
-        <Box key={index} display="flex" mt={2}>
-          <TextField
-            label="Day"
-            value={task.day}
-            onChange={(e) => handleTaskChange(index, 'day', e.target.value)}
-            fullWidth
-            style={{ marginRight: 8 }}
-          />
-          <TextField
-            label="Time"
-            value={task.time}
-            onChange={(e) => handleTaskChange(index, 'time', e.target.value)}
-            fullWidth
-            style={{ marginRight: 8 }}
-          />
-          <TextField
-            label="Task"
-            value={task.text}
-            onChange={(e) => handleTaskChange(index, 'text', e.target.value)}
-            fullWidth
-          />
-        </Box>
-      ))}
-      <Button onClick={handleAddTask}>Add Task</Button>
-      <Button onClick={handleSubmit}>Save Template</Button>
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Paper elevation={3} style={{ padding: '20px', maxWidth: '600px', width: '100%' }}>
+        <Typography variant="h6" gutterBottom>
+          Add New Template
+        </Typography>
+        <TextField
+          label="Template Name"
+          value={templateName}
+          onChange={(e) => setTemplateName(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        {tasks.map((task, index) => (
+          <Grid container spacing={2} key={index} style={{ marginBottom: '10px' }}>
+            <Grid item xs={4}>
+              <TextField
+                label="Day"
+                value={task.day}
+                onChange={(e) => handleTaskChange(index, 'day', e.target.value)}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="Time"
+                value={task.time}
+                onChange={(e) => handleTaskChange(index, 'time', e.target.value)}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                label="Task"
+                value={task.text}
+                onChange={(e) => handleTaskChange(index, 'text', e.target.value)}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
+        ))}
+        <Button variant="contained" color="primary" onClick={handleAddTask} style={{ marginRight: '10px' }}>
+          Add Task
+        </Button>
+        <Button variant="contained" color="secondary" onClick={handleSubmit}>
+          Save Template
+        </Button>
+      </Paper>
     </Box>
   );
 };

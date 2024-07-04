@@ -1,5 +1,11 @@
 const express = require('express');
+const { connect } = require('http2');
+const dotenv = require('dotenv').config();
 const port = 5001;
+
+// connexion a la base de données
+connectDB();
+
 const app = express();
 
 

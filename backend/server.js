@@ -1,13 +1,12 @@
-const express = require('express');
-const { connect } = require('http2');
-const dotenv = require('dotenv').config();
+const express = require("express");
+const connectDB = require("./src/config/db");
+const dotenv = require("dotenv").config();
 const port = 5001;
 
-// connexion a la base de données
+// connexion à la DB
 connectDB();
 
 const app = express();
-
 
 
 // middleware qui permet de traiter les données de la requête

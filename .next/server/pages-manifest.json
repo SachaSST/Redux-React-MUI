@@ -2,11 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/calendar": "pages/calendar.js",
-  "/": "pages/index.js",
-  "/weather": "pages/weather.js",
-  "/auth/signup": "pages/auth/signup.js",
-  "/auth/signin": "pages/auth/signin.js",
-  "/add-template": "pages/add-template.js",
-  "/apply-template": "pages/apply-template.js"
+  "/": "pages/index.js"
 }

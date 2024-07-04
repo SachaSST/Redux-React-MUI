@@ -1,5 +1,4 @@
-// components/Signup.js
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -7,7 +6,7 @@ const Signup = () => {
 
   const handleSignUp = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/users/signup', {
+      const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,6 +25,7 @@ const Signup = () => {
 
   return (
     <div>
+      <h2>Sign Up</h2>
       <input
         type="email"
         placeholder="Email"

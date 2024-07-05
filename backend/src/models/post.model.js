@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { bool } = require('prop-types');
 
 const postSchema = new mongoose.Schema(
     {
@@ -16,6 +15,10 @@ const postSchema = new mongoose.Schema(
             type: Date,
             default: Date.now,
         },
+        dueDate: {
+            type: Date,
+            default: null,
+        },
         reccurence: {
             type: String,
             default: "daily",
@@ -24,9 +27,6 @@ const postSchema = new mongoose.Schema(
     {
         timestamps: true,
     }
-
-
 );
-
 
 module.exports = mongoose.model('Post', postSchema);

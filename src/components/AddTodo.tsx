@@ -5,7 +5,8 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Dayjs } from 'dayjs';
 import { styled } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../features/todos/todosSlice';
+import { addPost } from '../redux/actions/todoActions'; 
+import { AppDispatch } from '../store'; 
 
 const AddButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -28,19 +29,19 @@ const AddButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const AddTodo = () => {
+const AddTodo: React.FC = () => {
   const [text, setText] = useState('');
   const [dueDate, setDueDate] = useState<Dayjs | null>(null);
   const [recurrence, setRecurrence] = useState('none');
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim()) {
-      dispatch(addTodo({
-        text,
-        dueDate: dueDate ? dueDate.toISOString() : '',
-        recurrence,
+      dispatch(addPost({
+        message: text,
+        dueDate: dueDate ? dueDate.toISOString() : '', // This should now be valid
+        reccurence: recurrence,
       }));
       setText('');
       setDueDate(null);
@@ -73,7 +74,6 @@ const AddTodo = () => {
             label="Due Date"
             value={dueDate}
             onChange={(newValue) => setDueDate(newValue)}
-            //renderInput={(params) => <TextField {...params} fullWidth variant="outlined" />}
           />
         </Grid>
         <Grid item xs={12} md={3}>

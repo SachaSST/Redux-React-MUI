@@ -3,7 +3,7 @@ const { bool } = require('prop-types');
 
 const postSchema = new mongoose.Schema(
     {
-        title: {
+        message: {
             type: String,
             required: true,
             trim: true,

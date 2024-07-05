@@ -42,4 +42,28 @@ module.exports.editPost = async (req, res) => {
     res.status(200).json("Message supprimé " + req.params.id);
   };
 
+  module.exports.completedPost = async (req, res) => {
+    const post = await PostModel.findById(req.params.id);
+  
+    if (!post) {
+      res.status(400).json({ message: "Ce post n'existe pas" });
+    }
+    post.completed = true;
+    await post.save();
+    res.status(200).json("Post completed : id : " + req.params.id);
+  }
+
+  module.exports.notCompletedPost = async (req, res) => {
+    const post = await PostModel.findById(req.params.id);
+  
+    if (!post) {
+      res.status(400).json({ message: "Ce post n'existe pas" });
+    }
+    post.completed = false;
+    await post.save();
+    res.status(200).json("Post not completed : id : " + req.params.id);
+  }
+
+  
+
 

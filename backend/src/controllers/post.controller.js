@@ -32,4 +32,14 @@ module.exports.editPost = async (req, res) => {
   };
 
 
+  module.exports.deletePost = async (req, res) => {
+    const post = await PostModel.findById(req.params.id);
+  
+    if (!post) {
+      res.status(400).json({ message: "Ce post n'existe pas" });
+    }
+    await post.deleteOne({ _id: post })
+    res.status(200).json("Message supprimé " + req.params.id);
+  };
+
 

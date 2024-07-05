@@ -21,7 +21,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "pages/auth/signup.js"  ],
   "exclude": [
     "node_modules"
   ]

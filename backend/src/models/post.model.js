@@ -1,23 +1,21 @@
 const mongoose = require('mongoose');
+const { bool } = require('prop-types');
 
 const postSchema = new mongoose.Schema(
     {
-        message : {
+        title: {
             type: String,
-            required: true
+            required: true,
+            trim: true,
         },
-        author : {
-            type: String,
-            required: true
+        completed: {
+            type: Boolean,
+            default: false,
         },
-        date : {
+        date: {
             type: Date,
-            default: Date.now
-        },
-
-        completedtasks : {
-            type: [String],
-        },
+            default: Date.now,
+    },
     },
     {
         timestamps: true,

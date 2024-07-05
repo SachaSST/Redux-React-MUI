@@ -1,5 +1,5 @@
 const express = require('express');
-const { setPosts, getPosts, editPost, deletePost, completedPost, notCompletedPost } = require('../controllers/post.controller');
+const { setPosts, getPosts, editPost, deletePost, completedPost, notCompletedPost, recurrentPost } = require('../controllers/post.controller');
 const router = express.Router();
 
 
@@ -9,6 +9,7 @@ router.put("/:id", editPost);
 router.delete("/:id", deletePost);
 router.patch("/completed-task/:id", completedPost);
 router.patch("/not-completed-task/:id", notCompletedPost);
+router.patch("/reccurence-task/:id", recurrentPost);
 
 
 

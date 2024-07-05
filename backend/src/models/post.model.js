@@ -15,7 +15,11 @@ const postSchema = new mongoose.Schema(
         date: {
             type: Date,
             default: Date.now,
-    },
+        },
+        reccurence: {
+            type: String,
+            default: "daily",
+        }
     },
     {
         timestamps: true,

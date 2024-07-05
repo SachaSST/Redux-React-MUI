@@ -64,6 +64,17 @@ module.exports.editPost = async (req, res) => {
     res.status(200).json("Post not completed : id : " + req.params.id);
   }
 
+  module.exports.recurrentPost = async (req, res) => {
+    const post = await PostModel.findById(req.params.id);
   
+    if (!post) {
+      res.status(400).json({ message: "Ce post n'existe pas" });
+    }
+    post.reccurence = req.body.reccurence;
+    await post.save();
+    res.status(200).json("Post recurrent : id : " + req.params.id);
+  }
+
+
 
 

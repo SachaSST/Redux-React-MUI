@@ -1,24 +1,21 @@
 const express = require("express");
 const connectDB = require("./src/config/db");
 const dotenv = require("dotenv").config();
-const port = 5001;
+const port = process.env.PORT || 5001;
 
-// connexion à la DB
 connectDB();
 
 const app = express();
-
-
-// middleware qui permet de traiter les données de la requête
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/post", require("./src/routes/post.routes"));
+app.use("/user", require("./src/routes/user.routes"));
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
-
-
-
-// lancer le serveur
-app.listen(port, () => console.log("le serveur a démarré sur le port" + port));
+app.listen(port, () => console.log(`Server running on port ${port}`));

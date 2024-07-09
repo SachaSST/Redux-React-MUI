@@ -2,6 +2,7 @@ import axios from 'axios';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../../store';
 import { Action } from 'redux';
+import { Todo } from '../../features/todos/todosSlice';
 
 // Action Types
 export const GET_POSTS = 'GET_POSTS';
@@ -12,20 +13,6 @@ export const COMPLETE_POST = 'COMPLETE_POST';
 export const NOT_COMPLETE_POST = 'NOT_COMPLETE_POST';
 export const SET_RECCURENCE = 'SET_RECCURENCE';
 
-interface Post {
-  _id?: string;
-  message: string;
-  completed?: boolean;
-  date?: string;
-  dueDate?: string; // Add dueDate here
-  reccurence?: string;
-}
-
-interface AddPostAction {
-  type: typeof ADD_POST;
-  payload: Post;
-}
-
 // Define the Thunk Action type
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
 
@@ -35,13 +22,12 @@ export const getPosts = (): AppThunk => async dispatch => {
   dispatch({ type: GET_POSTS, payload: response.data });
 };
 
-export const addPost = (postData: Post): AppThunk => async dispatch => {
+export const addPost = (postData: Todo): AppThunk => async dispatch => {
   const response = await axios.post('http://localhost:5001/post', postData);
-  dispatch<AddPostAction>({ type: ADD_POST, payload: response.data });
+  dispatch({ type: ADD_POST, payload: response.data });
 };
 
-// Define other action creators similarly
-export const editPost = (id: string, postData: Post): AppThunk => async dispatch => {
+export const editPost = (id: string, postData: Todo): AppThunk => async dispatch => {
   const response = await axios.put(`http://localhost:5001/post/${id}`, postData);
   dispatch({ type: EDIT_POST, payload: response.data });
 };

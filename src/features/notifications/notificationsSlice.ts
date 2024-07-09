@@ -1,6 +1,7 @@
+// src/features/notifications/notificationsSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../../store';
-import { Todo } from '../todos/todosSlice';
+import { Todo, TodosState } from '../todos/todosSlice';
 
 interface Notification {
   id: number;
@@ -35,13 +36,15 @@ export const checkNotifications = (): AppThunk => (dispatch, getState) => {
   const { todos } = getState() as RootState;
   const currentTime = new Date().getTime();
 
-  todos.active.forEach((todo: Todo) => {
-    if (!todo.completed && new Date(todo.dueDate).getTime() < currentTime) {
-      dispatch(addNotification({ id: todo.id, message: `Task "${todo.text}" is overdue!`, read: false }));
-    } else if (todo.completed) {
-      dispatch(addNotification({ id: todo.id, message: `Task "${todo.text}" has been completed!`, read: false }));
-    }
-  });
+  if (todos.active && Array.isArray(todos.active)) {
+    todos.active.forEach((todo: Todo) => {
+      if (!todo.completed && new Date(todo.dueDate).getTime() < currentTime) {
+        dispatch(addNotification({ id: todo.id, message: `Task "${todo.text}" is overdue!`, read: false }));
+      } else if (todo.completed) {
+        dispatch(addNotification({ id: todo.id, message: `Task "${todo.text}" has been completed!`, read: false }));
+      }
+    });
+  }
 };
 
 export type { Notification }; 

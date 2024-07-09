@@ -1,12 +1,12 @@
 // src/store.ts
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import todoReducer from './redux/reducers/todoReducer';
+import todosReducer from './features/todos/todosSlice';
 import notificationsReducer from './features/notifications/notificationsSlice';
 import templatesReducer from './features/templates/templatesSlice';
 
 export const store = configureStore({
   reducer: {
-    todos: todoReducer, 
+    todos: todosReducer,
     notifications: notificationsReducer,
     templates: templatesReducer,
   },

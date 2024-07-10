@@ -3,7 +3,7 @@ const userManager = require('../managers/user.manager');
 module.exports = {
   register: async (req, res) => {
     try {
-      const newUser = await userManager.register(req.body.email, req.body.password);
+      const newUser = await userManager.register(req.body.username, req.body.email, req.body.password);
       res.status(201).json(newUser);
     } catch (error) {
       res.status(400).json({ message: error.message });

@@ -1,99 +1,60 @@
-const PostModel = require('../models/post.model');
+const postManager = require('../managers/post.manager');
 
-// Récupérer les tâches
-module.exports.getPosts = async (req, res) => {
-  const posts = await PostModel.find();
-  res.status(200).json(posts);
+module.exports = {
+  getPosts: async (req, res) => {
+    try {
+      const posts = await postManager.getPosts();
+      res.status(200).json(posts);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  setPosts: async (req, res) => {
+    try {
+      const post = await postManager.createPost(req.body);
+      res.status(200).json(post);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  },
+  editPost: async (req, res) => {
+    try {
+      const updatedPost = await postManager.editPost(req.params.id, req.body);
+      res.status(200).json(updatedPost);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  },
+  deletePost: async (req, res) => {
+    try {
+      await postManager.deletePost(req.params.id);
+      res.status(200).json({ message: "Post deleted" });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  },
+  completedPost: async (req, res) => {
+    try {
+      await postManager.setCompleted(req.params.id, true);
+      res.status(200).json({ message: "Post completed" });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  },
+  notCompletedPost: async (req, res) => {
+    try {
+      await postManager.setCompleted(req.params.id, false);
+      res.status(200).json({ message: "Post not completed" });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  },
+  recurrentPost: async (req, res) => {
+    try {
+      await postManager.setRecurrent(req.params.id, req.body.reccurence);
+      res.status(200).json({ message: "Post recurrent" });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
 };
-
-// Ajouter une tâche
-module.exports.setPosts = async (req, res) => {
-  if (!req.body.message) {
-    res.status(400).json({ message: "Merci d'ajouter un message" });
-  }
-
-  //les conflits avec les tâches existantes
-  const conflictingTask = await PostModel.findOne({
-    dueDate: req.body.dueDate,
-    reccurence: { $ne: "none" } // Ignorer les tâches non récurrentes
-  });
-
-  if (conflictingTask) {
-    // Si une tâche récurrente existe, marquer comme "overridden" et créer la nouvelle tâche normale
-    conflictingTask.overridden = true;
-    await conflictingTask.save();
-  }
-
-  const newPost = {
-    message: req.body.message,
-    dueDate: req.body.dueDate,
-    reccurence: req.body.reccurence || "none",
-    uniqueDate: req.body.uniqueDate || null,
-    overridden: false // Ajouter un champ pour marquer si la tâche est remplacée
-  };
-
-  const post = await PostModel.create(newPost);
-  res.status(200).json(post);
-};
-
-// Modifier une tâche
-module.exports.editPost = async (req, res) => {
-  const post = await PostModel.findById(req.params.id);
-
-  if (!post) {
-    res.status(400).json({ message: "Ce post n'existe pas" });
-  }
-
-  const updatePost = await PostModel.findByIdAndUpdate(post, req.body, {
-    new: true,
-  });
-
-  res.status(200).json(updatePost);
-};
-
-// Supprimer une tâche
-module.exports.deletePost = async (req, res) => {
-  const post = await PostModel.findById(req.params.id);
-
-  if (!post) {
-    res.status(400).json({ message: "Ce post n'existe pas" });
-  }
-  await post.deleteOne({ _id: post })
-  res.status(200).json("Message supprimé " + req.params.id);
-};
-
-// Compléter une tâche
-module.exports.completedPost = async (req, res) => {
-  const post = await PostModel.findById(req.params.id);
-
-  if (!post) {
-    res.status(400).json({ message: "Ce post n'existe pas" });
-  }
-  post.completed = true;
-  await post.save();
-  res.status(200).json("Post completed : id : " + req.params.id);
-}
-
-// Marquer une tâche comme non complétée
-module.exports.notCompletedPost = async (req, res) => {
-  const post = await PostModel.findById(req.params.id);
-
-  if (!post) {
-    res.status(400).json({ message: "Ce post n'existe pas" });
-  }
-  post.completed = false;
-  await post.save();
-  res.status(200).json("Post not completed : id : " + req.params.id);
-}
-
-// Ajouter une récurrence à une tâche
-module.exports.recurrentPost = async (req, res) => {
-  const post = await PostModel.findById(req.params.id);
-
-  if (!post) {
-    res.status(400).json({ message: "Ce post n'existe pas" });
-  }
-  post.reccurence = req.body.reccurence;
-  await post.save();
-  res.status(200).json("Post recurrent : id : " + req.params.id);
-}

@@ -21,7 +21,15 @@ const postSchema = new mongoose.Schema(
         },
         reccurence: {
             type: String,
-            default: "daily",
+            default: "none",
+        },
+        uniqueDate: {
+            type: Date,
+            default: null,
+        },
+        overridden: {
+            type: Boolean,
+            default: false,
         }
     },
     {

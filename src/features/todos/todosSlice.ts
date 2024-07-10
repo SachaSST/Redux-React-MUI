@@ -1,11 +1,12 @@
-// src/features/todos/todosSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Todo {
   id: number;
   text: string;
-  completed: boolean;
   dueDate: string;
+  recurrence: string;
+  completed: boolean;
+  archived: boolean;
 }
 
 interface TodosState {
@@ -22,26 +23,44 @@ const todosSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<Todo>) => {
-      state.active.push(action.payload);
+    addTodo: (state, action: PayloadAction<Omit<Todo, 'id' | 'completed' | 'archived'>>) => {
+      const newTodo: Todo = {
+        id: state.active.length ? state.active[state.active.length - 1].id + 1 : 1,
+        ...action.payload,
+        completed: false,
+        archived: false,
+      };
+      state.active.push(newTodo);
+    },
+    toggleTodo: (state, action: PayloadAction<number>) => {
+      const todo = state.active.find(todo => todo.id === action.payload);
+      if (todo) {
+        todo.completed = !todo.completed;
+      }
     },
     archiveTodo: (state, action: PayloadAction<number>) => {
-      const index = state.active.findIndex(todo => todo.id === action.payload);
-      if (index !== -1) {
-        state.archived.push(state.active[index]);
-        state.active.splice(index, 1);
+      const todoIndex = state.active.findIndex(todo => todo.id === action.payload);
+      if (todoIndex !== -1) {
+        const [archivedTodo] = state.active.splice(todoIndex, 1);
+        archivedTodo.archived = true;
+        state.archived.push(archivedTodo);
       }
     },
     restoreTodo: (state, action: PayloadAction<number>) => {
-      const index = state.archived.findIndex(todo => todo.id === action.payload);
-      if (index !== -1) {
-        state.active.push(state.archived[index]);
-        state.archived.splice(index, 1);
+      const todoIndex = state.archived.findIndex(todo => todo.id === action.payload);
+      if (todoIndex !== -1) {
+        const [restoredTodo] = state.archived.splice(todoIndex, 1);
+        restoredTodo.archived = false;
+        state.active.push(restoredTodo);
       }
+    },
+    clearUser: (state) => {
+      state.active = [];
+      state.archived = [];
     },
   },
 });
 
-export const { addTodo, archiveTodo, restoreTodo } = todosSlice.actions;
-export type { Todo, TodosState };
+export const { addTodo, toggleTodo, archiveTodo, restoreTodo, clearUser } = todosSlice.actions;
+
 export default todosSlice.reducer;

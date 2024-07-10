@@ -5,8 +5,8 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Dayjs } from 'dayjs';
 import { styled } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
-import { addPost } from '../redux/actions/todoActions'; 
-import { AppDispatch } from '../store'; 
+import { addPost } from '../redux/actions/todoActions'; // Import the action
+import { AppDispatch } from '../store'; // Import the AppDispatch type
 
 const AddButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -40,7 +40,7 @@ const AddTodo: React.FC = () => {
     if (text.trim()) {
       dispatch(addPost({
         message: text,
-        dueDate: dueDate ? dueDate.toISOString() : '', // This should now be valid
+        dueDate: dueDate ? dueDate.toISOString() : '',
         reccurence: recurrence,
       }));
       setText('');

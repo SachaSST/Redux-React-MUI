@@ -6,11 +6,13 @@ import ArchivedMenuBar from './components/ArchivedMenuBar';
 import Weather from './components/Weather';
 import AddTemplate from './components/AddTemplate';
 import ApplyTemplate from './components/ApplyTemplate';
+import Register from './components/Register';
+import Login from './components/Login';
+import Profile from './components/Profile';
 import { Container, Typography, Box } from '@mui/material';
 
 const App: React.FC = () => {
   const handleLogout = () => {
-    // Logique de déconnexion, par exemple redirection ou nettoyage de l'état utilisateur
     console.log('User logged out');
   };
 
@@ -34,6 +36,9 @@ const App: React.FC = () => {
             <Route path="/weather" element={<Weather />} />
             <Route path="/add-template" element={<AddTemplate />} />
             <Route path="/apply-template" element={<ApplyTemplate />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Box>
       </Container>

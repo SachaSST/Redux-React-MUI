@@ -1,5 +1,5 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
   setPosts,
   getPosts,
   editPost,
@@ -7,7 +7,8 @@ const {
   completedPost,
   notCompletedPost,
   recurrentPost
-} = require('../controllers/post.controller');
+} from '../controllers/post.controller';
+
 const router = express.Router();
 
 router.get("/", getPosts);
@@ -18,4 +19,4 @@ router.patch("/completed-task/:id", completedPost);
 router.patch("/not-completed-task/:id", notCompletedPost);
 router.patch("/reccurence-task/:id", recurrentPost);
 
-module.exports = router;
+export default router;

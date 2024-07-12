@@ -32,6 +32,10 @@ describe('User Manager', () => {
     const user = await register(mockUser.username, mockUser.email, mockUser.password);
     expect(user).toHaveProperty('username', mockUser.username);
     expect(user).toHaveProperty('email', mockUser.email);
+
+    const savedUser = await UserModel.findOne({ email: mockUser.email });
+    expect(savedUser).not.toBeNull();
+    expect(savedUser?.password).not.toBe(mockUser.password); 
   });
 
   it('should not register a user with an existing email', async () => {
